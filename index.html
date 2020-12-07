@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+     <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>::Company::</title>
+    <script src="js/angular.min.js"></script>
+    <script src="js/app.js"></script>
+    <!-- Bootstrap -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/screen.css" rel="stylesheet">
+    
+  </head>
+  <body ng-cloak ng-app="companyApp" ng-controller="companyController">
+  <div class="shadow-sm">
+  <div class="container">
+   <div class="row">
+  <div class="col-md-4">  
+  <h5 class="my-0 mr-md-auto logo">Company <span>Profile</span></h5>
+  </div>
+  <div class="col-md-8">
+   <form class="form-inline my-2 my-md-0  float-right" name="form" novalidate>
+      <div class="input-group mb-3">
+        <input type="text" class="form-control" placeholder="Search symbol" aria-label="Search" aria-describedby="basic-addon2" ng-model="search" name="search" required autocomplete="off">
+        <!-- <div ng-show="form.$submitted || form.search.$touched">
+            <div ng-show="form.search.$error.required">Required</div>
+        </div> -->
+		<div class="input-group-append">
+			 <button class="btn btn-primary" type="submit" ng-click="searchCompany(form)">Search</button>
+        </div>
+    </div>
+        	
+    </form>
+</div>
+</div>
+ </div>
+  </div>
+  <div class="loader" ng-if="loadData"></div> 
+ <div class="container emp-profile" ng-if="companyData">     
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="profile-img">
+                            <img src="{{companyData.image}}"  alt=""/>
+                           
+                        </div>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="profile-head">
+                                    <h5>
+                                        {{companyData.companyName}}
+                                    </h5>
+                                    <h6>
+                                        {{companyData.industry}}
+                                    </h6>
+                                    <p class="proile-changes">Changes : <span ng-class="{'green':companyData.changes > 0, 'red' : companyData.changes < 0 }">{{companyData.changes}}</span></p>
+									<!--<p class="proile-changes">Changes : <span class="red">-0.69</span></p>-->
+									<p class="proile-changes">Price : <span ng-If="companyData.price"> $ {{companyData.price}}</span></p>
+									<p class="proile-changes">Website : <span><a href="{{companyData.website}}" target="_blank">{{companyData.website}}</a></span></p>
+                           
+                        </div>
+                    </div>
+                </div>
+				<div class="clearfix"></div>
+                <div class="row">
+					
+                    <div class="col-md-12">
+					 <ul class="nav nav-tabs" id="myTab" role="tablist">
+                                <li class="nav-item">
+                                    <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">About</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Description</a>
+                                </li>
+                            </ul>
+                        <div class="tab-content profile-tab" id="myTabContent">
+                            <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <label>CEO</label>
+                                            </div>
+                                            <div class="col-md-8">
+                                                <p>{{companyData.ceo}}</p>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <label>Sector</label>
+                                            </div>
+                                            <div class="col-md-8">
+                                                <p>{{companyData.sector}}</p>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <label>Country</label>
+                                            </div>
+                                            <div class="col-md-8">
+                                                <p>{{companyData.country}}</p>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <label>FullTime Employees</label>
+                                            </div>
+                                            <div class="col-md-8">
+                                                <p>{{companyData.fullTimeEmployees}}</p>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <label>Phone</label>
+                                            </div>
+                                            <div class="col-md-8">
+                                                <p>{{companyData.phone}}</p>
+                                            </div>
+                                        </div>
+										<div class="row">
+                                            <div class="col-md-4">
+                                                <label>Address</label>
+                                            </div>
+                                            <div class="col-md-8">
+                                                <p>{{companyData.address}}</p>
+                                            </div>
+                                        </div>
+                                      
+                            </div>
+                            <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                                        
+                                <div class="row">
+                                    <div class="col-md-12">
+                                       
+                                        <p>{{companyData.description}}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                  
+        </div>
+<div class="container emp-profile"  ng-if="errorMessage">
+    <div class="emptysearch">{{errorMessage}}</div>
+    <div class="emptysearch">Search for company profiles. ex: AAPL,MSFT,PIH,GOOG</div> 
+</div>
+<div class="container emp-profile"  ng-if="!companyData && !errorMessage">
+    <div class="emptysearch">Search for company profiles. ex: AAPL,MSFT,PIH,GOOG</div> 
+</div>
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="js/bootstrap.min.js"></script>
+  </body>
+</html>
